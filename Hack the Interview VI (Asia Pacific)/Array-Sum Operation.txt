@@ -1,0 +1,91 @@
+
+T M Hridoy KUET CSE 15
+
+#includebitsstdc++.h
+#include extpb_dsassoc_container.hpp
+using namespace __gnu_pbds;
+using namespace std;
+#define print cout==================n;
+typedef    long long ll;
+typedef pairll,ll    payar;
+typedef   unsigned long long ull;
+ Special functions
+
+        find_by_order(k) -- returns iterator to the kth largest element counting from 0
+        order_of_key(val) -- returns the number of items in a set that are strictly smaller than our item
+
+set
+typedef treeint,null_type,lessint,rb_tree_tag,
+        tree_order_statistics_node_update indexed_set;
+multiset
+typedef treepayar,null_type,lesspayar,rb_tree_tag,
+        tree_order_statistics_node_updateordered_set;
+map
+templateclass key, class value, class cmp = stdlesskey
+using ordered_map = treekey, value, cmp, rb_tree_tag, tree_order_statistics_node_update;
+ordered_mapint, int my_map;
+#define IOS iossync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define readf                freopen(in.txt, r, stdin);
+#define writef               freopen(out.txt, w, stdout);
+priority_queueint, vectorint,  greaterint  aa,bb,both; accending
+vector pairint,payar    vpp;
+vector  payar   vp,vp1;
+#define pi acos(-1.0);
+#define EPS 1e-9
+#define  mod   1000000007
+#define  modulo  1000000007
+#define all(x)  x.begin(),x.end()
+#define un(x)       x.erase(unique(all(x)), x.end())
+#define endl n
+inline ll bits(ll arg,int posn)
+{
+    return ((arg)  (1  (posn)));
+
+}
+inline ll bitc(ll arg, int posn)
+{
+    return ((arg) & ~(1  (posn)));
+}
+const int N = 5e5+5;
+
+
+int main ()
+{
+    IOS;
+    int n , m ;
+    cinnm;
+    int ara[n];
+    int last ;
+    int first;
+    ll sum = 0;
+    unordered_mapint,intmp;
+    for(int i = 0 ; in ;i++){
+        ara[i]=i+1;
+        sum+=ara[i];
+        mp[ara[i]]=1;
+    }
+    last = ara[n-1];
+    first = ara[0];
+
+    while(m--){
+            sum-=last;
+    sum-=first;
+        int x ;
+        cinx;
+        if(mp[x]==1){
+            swap(last,first);
+        }
+        else{
+            mp[last]=0;
+            last=x;
+            mp[last]=1;
+        }
+          sum+=last;
+    sum+=first;
+    coutsumendl;
+    }
+
+
+
+    return 0;
+}

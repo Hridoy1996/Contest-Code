@@ -1,0 +1,106 @@
+/*
+T M Hridoy KUET CSE 15
+*/
+#include<bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+using namespace std;
+#define print cout<<"==================\n";
+typedef    long long ll;
+typedef pair<ll,ll   > payar;
+typedef   unsigned long long ull;
+/* Special functions:
+
+        find_by_order(k) --> returns iterator to the kth largest element counting from 0
+        order_of_key(val) --> returns the number of items in a set that are strictly smaller than our item
+*/
+///set
+typedef tree<int,null_type,less<int>,rb_tree_tag,
+        tree_order_statistics_node_update> indexed_set;
+///multiset
+typedef tree<payar,null_type,less<payar>,rb_tree_tag,
+        tree_order_statistics_node_update>ordered_set;
+///map
+template<class key, class value, class cmp = std::less<key>>
+using ordered_map = tree<key, value, cmp, rb_tree_tag, tree_order_statistics_node_update>;
+ordered_map<int, int> my_map;
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define readf                freopen("in.txt", "r", stdin);
+#define writef               freopen("out.txt", "w", stdout);
+priority_queue<int, vector<int>,  greater<int> > aa,bb,both; ///accending
+vector< pair<int,payar  > > vpp;
+vector < payar >  vp,vp1;
+#define pi acos(-1.0);
+#define EPS 1e-9
+#define  mod   1000000007
+#define  modulo  1000000007
+#define all(x)  x.begin(),x.end()
+#define un(x)       x.erase(unique(all(x)), x.end())
+#define endl "\n"
+inline ll bits(ll arg,int posn)
+{
+    return ((arg) | (1 << (posn)));
+
+}
+inline ll bitc(ll arg, int posn)
+{
+    return ((arg) & ~(1 << (posn)));
+}
+const int N = 5e5+5;
+
+
+int main ()
+{
+    IOS;
+
+    int n, m, s, q ;
+    cin>>n>>m>>s>>q;
+    int b[m+1];
+    unordered_map<int,int>mp;
+    for(int i = 0 ; i<m ; i++)
+    {
+        cin>>b[i+1];
+        mp[b[i+1]]=1;
+    }
+    sort(b+1,b+m+1);
+    for(int i = 0 ; i<s ;i++){
+        int a , b ;
+        cin>>a>>b;
+        if(a>b)swap(a,b);
+        if(mp[a] and mp[b])continue;
+        else if(mp[a]){
+            mp[a]=0;
+            mp[b]=1;
+        }
+        else if(mp[b]){
+            mp[b]=0;
+            mp[a]=1;
+        }
+        else{
+            continue;
+        }
+    }
+    vector<int>order;
+    for(auto it: mp){
+        if(it.second!=0){
+            order.push_back(it.first);
+        }
+        //cout<<it.first<<endl;
+    }
+    sort(all(order));
+     for(int i = 0 ; i<q;i++){
+        int a , b ;
+        cin>>a>>b;
+        if(a>b)swap(a,b);
+
+        int rb = upper_bound(all(order),b)-order.begin();
+        int ra = lower_bound(all(order),a)-order.begin();
+        cout<<rb-ra<<" ";
+     }
+     cout<<endl;
+
+
+
+
+    return 0;
+}

@@ -1,0 +1,111 @@
+/*
+T M Hridoy KUET CSE 15
+*/
+#include<bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+using namespace std;
+#define print cout<<"==================\n";
+typedef    long long ll;
+typedef pair<ll,ll   > payar;
+typedef   unsigned long long ull;
+/* Special functions:
+
+        find_by_order(k) --> returns iterator to the kth largest element counting from 0
+        order_of_key(val) --> returns the number of items in a set that are strictly smaller than our item
+*/
+///set
+typedef tree<int,null_type,less<int>,rb_tree_tag,
+        tree_order_statistics_node_update> indexed_set;
+///multiset
+typedef tree<payar,null_type,less<payar>,rb_tree_tag,
+        tree_order_statistics_node_update>ordered_set;
+///map
+template<class key, class value, class cmp = std::less<key>>
+using ordered_map = tree<key, value, cmp, rb_tree_tag, tree_order_statistics_node_update>;
+ordered_map<int, int> my_map;
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define readf                freopen("in.txt", "r", stdin);
+#define writef               freopen("out.txt", "w", stdout);
+priority_queue<int, vector<int>,  greater<int> > aa,bb,both; ///accending
+vector< pair<int,payar  > > vpp;
+vector < payar >  vp,vp1;
+#define pi acos(-1.0);
+#define EPS 1e-9
+#define  mod   1000000007
+#define  modulo  1000000007
+#define all(x)  x.begin(),x.end()
+#define un(x)       x.erase(unique(all(x)), x.end())
+#define endl "\n"
+inline ll bits(ll arg,int posn)
+{
+    return ((arg) | (1 << (posn)));
+
+}
+inline ll bitc(ll arg, int posn)
+{
+    return ((arg) & ~(1 << (posn)));
+}
+const int N = 5e5+5;
+vector<int>adj[N];
+int dep[N],vis[N],sz[N];
+void dfs(int source,int destination )
+{
+
+    queue<ll>q;
+    q.push(source);
+    memset(vis,false,sizeof vis);
+
+    vis[source]=true;
+    dep[source]=0;
+    while(!q.empty())
+    {
+        ll u=q.front();
+        q.pop();
+        for(ll i=0;i<adj[u].size();i++)
+        {
+            ll v=adj[u][i];
+            if(!vis[v])
+            {
+                vis[v]=true;
+                dep[v]=dep[u]+1;
+                q.push(v);
+            }
+        }
+    }
+
+}
+
+int main ()
+{
+    IOS;
+
+    int n, m ;
+    cin>>n>>m;
+    for(int i = 0 ; i < m; i++)
+    {
+        int a, b ;
+        cin>>a>>b;
+        adj[a].push_back(b);
+        adj[b].push_back(a);
+    }
+    dfs(1,-1);
+    ll ans = 0;
+    ll mini = 1e18;
+    for(int i = n ; i>=1 ;i--){
+        int sz = dep[i];
+        //cout<<sz<<" "<<i<<endl;
+        if(sz<=mini){
+            ans+=sz;
+            mini=sz;
+        }
+        else{
+            ans+=mini;
+        }
+    }
+    cout<<ans<<endl;
+
+
+
+    return 0;
+}
