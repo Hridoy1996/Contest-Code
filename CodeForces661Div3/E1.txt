@@ -37,6 +37,7 @@ vector < payar >  vp,vp1;
 #define all(x)  x.begin(),x.end()
 #define un(x)       x.erase(unique(all(x)), x.end())
 #define endl "\n"
+
 inline ll bits(ll arg,int posn)
 {
     return ((arg) | (1 << (posn)));
@@ -48,7 +49,28 @@ inline ll bitc(ll arg, int posn)
 }
 const int N = 5e5+5;
 
+ll s,n, wsum;
+vector<payar>adj[N];
+priority_queue<pair<ll,payar> >lagbe;
+ll dfs(int u, int p )
+{
+    bool is_leaf = 1;
+    int sum = 0 ;
 
+   for(auto &it: adj[u]){
+        ll v = it.first;
+        ll w = it.second;;
+        if(v==p)
+            continue;
+
+        is_leaf=0;
+        ll tot_leaf = dfs(v,u);
+        lagbe.push({w*tot_leaf-(w/2)*tot_leaf,{w,tot_leaf}});
+        sum+=tot_leaf;
+        wsum += w*tot_leaf;
+    }
+    return sum + is_leaf;
+}
 int main ()
 {
     IOS;
@@ -56,68 +78,39 @@ int main ()
     cin>>t;
     while(t--)
     {
-        int n ;
-        cin>>n;
-        vector<pair<char,int>>st;
-        vector<int>ans(n);
-        string s ;
-        cin>>s;
+        cin>>n>>s;
 
-        int cnt = 1 ;
-        int one = 0 ;
-        for(int i = 0 ; i<n ; i++)
+        wsum = 0;
+
+        for(int i=1; i<=n; ++i)
+            adj[i].clear();
+
+        lagbe = priority_queue<pair<ll, payar>>();
+
+        for(int i=1; i<n; ++i)
         {
-            st.push_back({s[i],i});
-            if(s[i]=='1')
-                one++;
+            int u, v;
+            ll w;
+            cin >> u >> v >> w;
+            adj[u].emplace_back(v,w);
+            adj[v].emplace_back(u,w);
         }
-        int z = n - one;
-
-        while(st.size())
-        {
-          //  print;
-            vector<pair<char,int>>tmp;
-            char prev;
-            prev = st[0].first;
-            ans[st[0].second]=cnt;
-            int sx=st.size();
-            int in = 0 ;
-            for(int i = 1 ; i<sx ; i++)
-            {
-                if(prev!=st[i].first)
-                {
-                    ans[st[i].second]=cnt;
-                    prev=st[i].first;
-                    in= 1;
-                }
-                else
-                {
-                    tmp.push_back(st[i]);
-                }
-            }
-
-            if(!in)
-            {
-                for(int i = 0 ; i<tmp.size() ; i++)
-                {
-                        ans[tmp[i].second]=++cnt;
-
-                }
-                cnt++;
-                break;
-            }
-             cnt++;
+        ll emni = dfs(1,-1);
 
 
-            st=tmp;
+        ll ans = 0;
+
+        while(wsum>s){
+            pair<ll, payar> tmp = lagbe.top();
+            ll x = tmp.second.first ;
+            ll y = tmp.second.second;
+            wsum -= x*y ;
+            wsum += (x/2)*y;
+            lagbe.pop();
+            lagbe.push({(x/2)*y-((x/2)/2)*y,{(x/2),y}});
+            ans++;
         }
-        cout<<cnt-1<<endl;
-        for(auto it: ans)
-        {
-            cout<<it<<" ";
-        }
-        cout<<endl;
-
+        cout<<ans<<endl;
     }
 
     return 0;
